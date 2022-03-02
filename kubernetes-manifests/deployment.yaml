@@ -19,3 +19,8 @@ spec:
         image: software-delivery-demo
         ports:
         - containerPort: 8080
+        resources:
+          limits:
+            cpu: 200m
+          requests:
+            cpu: 100m
