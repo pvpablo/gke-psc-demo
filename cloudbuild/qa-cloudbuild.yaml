@@ -1,0 +1,13 @@
+steps:
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      [
+        "beta", "deploy", "releases", "promote",
+        "--delivery-pipeline", "${_PIPELINE_NAME}",
+        "--region", "${_LOCATION}",
+        "--release", "release-${SHORT_SHA}"
+      ]
+substitutions:
+  _PIPELINE_NAME: software-delivery-pipeline # default value
+  _LOCATION: us-central1 # default value

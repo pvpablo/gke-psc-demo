@@ -3,11 +3,24 @@ steps:
     entrypoint: mvn
     args: ['package', '-Dmaven.test.skip=true']
   - name: 'gcr.io/cloud-builders/docker'
-    args: [ 'build', '-t', '${_LOCATION}-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/${_IMAGE}:$SHORT_SHA', '.' ]
+    args: [ 'build', '-t', '${_IMAGE_PATH}:$SHORT_SHA', '.' ]
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [ 'push', '${_IMAGE_PATH}']
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      [
+        "beta", "deploy", "releases", "create", "release-${SHORT_SHA}",
+        "--delivery-pipeline", "${_PIPELINE_NAME}",
+        "--region", "${_LOCATION}",
+        "--annotations", "commitId=${REVISION_ID}",
+        "--images", "${_IMAGE}=${_IMAGE_PATH}:$SHORT_SHA"
+      ]
 images:
-- '${_LOCATION}-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/${_IMAGE}'
-
+- '${_IMAGE_PATH}'
 substitutions:
   _REPOSITORY: software-delivery-demo-repository # default value
   _IMAGE: software-delivery-demo # default value
   _LOCATION: us-central1 # default value
+  _PIPELINE_NAME: software-delivery-pipeline # default value
+  _IMAGE_PATH: us-central1-docker.pkg.dev/gke-delivery-showcase/software-delivery-demo-repository/software-delivery-demo # default value
