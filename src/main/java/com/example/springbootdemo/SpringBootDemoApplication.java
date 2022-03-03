@@ -16,7 +16,8 @@ public class SpringBootDemoApplication {
 		List<String> poblaciones = Arrays.asList("Agua Azul \uD83C\uDF0A",
 				"Rancho Alegre \uD83E\uDD20",
 				"La Chiripa \uD83E\uDD60",
-				"Los Lirios \uD83C\uDF38");
+				"Los Lirios \uD83C\uDF38",
+				"La Fortuna \uD83D\uDCB0");
 		return poblaciones.toString();
 	}
 
