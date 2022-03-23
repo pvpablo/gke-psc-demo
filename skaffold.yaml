@@ -4,3 +4,12 @@ deploy:
   kubectl:
     manifests:
       - kubernetes-manifests/*
+
+
+
+
+
+
+
+
+
